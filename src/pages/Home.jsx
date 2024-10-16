@@ -14,6 +14,9 @@ function Home() {
                     <li>
                         <Link to="/login">Login</Link>
                     </li>
+                    <li>
+                        <Link to="/logout">Logout</Link>
+                    </li>
                 </ul>
             </nav>
             <h1>Welcome to Our Application</h1>
