@@ -1,6 +1,8 @@
 https://www.youtube.com/watch?v=c-QsfbznSXI&t=2s
 
-React: 
+To run react server: npm run dev
+To install the packages: npm install
+
 step1:
 npm create vite@latest frontend -- --template react
 npm install axios react-router-dom jwt-decode
