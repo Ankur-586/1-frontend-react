@@ -32,3 +32,5 @@ Code write:
 
 Backend:
 the refersh token is used inside src/components/
+
+npm install -D tailwindcss postcss autoprefixer
