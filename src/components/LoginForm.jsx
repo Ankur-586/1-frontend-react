@@ -1,48 +1,43 @@
-import { useState } from "react";
-import api from "../api";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-import "../styles/Form.css"
+import { AuthContext } from "../components/AuthContext"; // Import AuthContext
+import api from "../api";
 import LoadingIndicator from "./LoadingIndicator";
 
 function LoginForm({ route, method }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const { login } = useContext(AuthContext); // Get the login function from context
     const navigate = useNavigate();
 
-    const name = "Login" ;
-
     const handleSubmit = async (e) => {
-        setLoading(true);
         e.preventDefault();
+        setLoading(true);
 
         try {
-            const res = await api.post(route, { email, password })
+            const res = await api.post(route, { email, password });
             if (method === "login") {
-                localStorage.setItem(ACCESS_TOKEN, res.data.access);
-                localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/")
-            } else {
-                navigate("/login")
+                login(res.data.access); // Log the user in and store the access token
+                navigate("/"); // Redirect to homepage after successful login
             }
         } catch (error) {
-            alert(error)
+            alert(error);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
 
     return (
         <form onSubmit={handleSubmit} className="form-container">
-            <h1>{name}</h1>
+            <h1>Login</h1>
             <input
                 className="form-input"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                required={method === "register"}
+                required
             />
             <input
                 className="form-input"
@@ -52,11 +47,9 @@ function LoginForm({ route, method }) {
                 placeholder="Password"
             />
             {loading && <LoadingIndicator />}
-            <button className="form-button" type="submit">
-                {name}
-            </button>
+            <button className="form-button" type="submit">Login</button>
         </form>
     );
 }
 
-export default LoginForm
+export default LoginForm;
